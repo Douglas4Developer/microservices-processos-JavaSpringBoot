@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: password
+  jpa:
+    properties:
+      hibernate.default_schema: processos
+  liquibase:
+    default-schema: processos
+    change-log: classpath:/db/changelog/db.changelog-master.sql
