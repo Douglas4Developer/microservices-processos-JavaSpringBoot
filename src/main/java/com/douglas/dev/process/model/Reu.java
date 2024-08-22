@@ -1,6 +1,7 @@
 package com.douglas.dev.process.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "reu")
+@JsonIgnoreProperties("processo") // Evita a referência circular ao serializar um Reu
 public class Reu {
 
     @Id
@@ -21,7 +23,7 @@ public class Reu {
     private String nome;
 
     @ManyToOne
-    @JoinColumn(name = "processo_id", nullable = false) // Adicionei nullable = false para garantir integridade
+    @JoinColumn(name = "processo_id")
     @JsonBackReference // Evita a serialização bidirecional
     private Processo processo;
 }
