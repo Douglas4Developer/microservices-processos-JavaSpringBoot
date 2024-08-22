@@ -5,6 +5,7 @@ import com.douglas.dev.process.dto.ReuDTO;
 import com.douglas.dev.process.exception.ProcessoDuplicadoException;
 import com.douglas.dev.process.exception.ProcessoNotFoundException;
 import com.douglas.dev.process.exception.ProcessoValidacaoNumero;
+import com.douglas.dev.process.exception.ReuNomeVazioException;
 import com.douglas.dev.process.model.Processo;
 import com.douglas.dev.process.model.Reu;
 import com.douglas.dev.process.repository.ProcessoRepository;
@@ -46,6 +47,10 @@ public class ProcessoServiceImpl implements ProcessoService {
 
     @Override
     public Processo adicionarReu(String numero, ReuDTO reuDTO) throws IOException {
+        if (reuDTO.getNome() == null || reuDTO.getNome().trim().isEmpty()) {
+            throw new ReuNomeVazioException("Erro: O nome do réu não pode estar vazio.");
+        }
+
         Processo processo = repository.findByNumero(numero)
                 .orElseThrow(() -> new ProcessoNotFoundException("Processo não encontrado"));
         Reu reu = new Reu();
