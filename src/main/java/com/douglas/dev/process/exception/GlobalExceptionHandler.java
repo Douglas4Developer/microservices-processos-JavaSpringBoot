@@ -22,4 +22,11 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleGenericException(Exception ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor");
     }
+
+    @ExceptionHandler(ProcessoValidacaoNumero.class)
+    public ProblemDetail handleProcessoValidacaoNumero(ProcessoValidacaoNumero ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+
+
 }

@@ -4,6 +4,7 @@ import com.douglas.dev.process.dto.ProcessoDTO;
 import com.douglas.dev.process.dto.ReuDTO;
 import com.douglas.dev.process.exception.ProcessoDuplicadoException;
 import com.douglas.dev.process.exception.ProcessoNotFoundException;
+import com.douglas.dev.process.exception.ProcessoValidacaoNumero;
 import com.douglas.dev.process.model.Processo;
 import com.douglas.dev.process.model.Reu;
 import com.douglas.dev.process.repository.ProcessoRepository;
@@ -21,13 +22,27 @@ public class ProcessoServiceImpl implements ProcessoService {
 
     @Override
     public Processo salvar(ProcessoDTO dto) throws IOException {
+        // Verifica se o número do processo é válido (maior que zero)
+        try {
+            long numeroProcesso = Long.parseLong(dto.getNumero());
+            if (numeroProcesso <= 0) {
+                throw new ProcessoValidacaoNumero("Erro: O número do processo deve ser maior que zero.");
+            }
+        } catch (NumberFormatException e) {
+            throw new ProcessoValidacaoNumero("Erro: O número do processo deve ser um número válido.");
+        }
+
+        // Verifica se o processo já está cadastrado
         if (repository.findByNumero(dto.getNumero()).isPresent()) {
             throw new ProcessoDuplicadoException("Erro: Processo já cadastrado");
         }
+
+        // Cria e salva o novo processo
         Processo processo = new Processo();
         processo.setNumero(dto.getNumero());
         return repository.save(processo);
     }
+
 
     @Override
     public Processo adicionarReu(String numero, ReuDTO reuDTO) throws IOException {

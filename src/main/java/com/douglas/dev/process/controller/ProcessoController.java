@@ -28,7 +28,8 @@ public class ProcessoController {
     @Operation(summary = "Salva um novo processo", description = "Salva um novo processo no sistema")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Processo criado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Processo duplicado")
+            @ApiResponse(responseCode = "400", description = "Processo duplicado"),
+            @ApiResponse(responseCode = "500", description = "Numero de Processo informado não válido!")
     })
     @PostMapping("/salvar")
     public ResponseEntity<Processo> salvar(@Valid @RequestBody ProcessoDTO dto) throws IOException {
