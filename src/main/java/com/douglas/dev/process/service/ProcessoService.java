@@ -1,27 +1,23 @@
 package com.douglas.dev.process.service;
 
 import com.douglas.dev.process.dto.ProcessoDTO;
-import com.douglas.dev.process.exception.ProcessoDuplicadoException;
+import com.douglas.dev.process.dto.ReuDTO;
 import com.douglas.dev.process.model.Processo;
-import com.douglas.dev.process.repository.ProcessoRepository;
-import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
 
+import java.io.IOException;
+import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class ProcessoService {
+public interface ProcessoService {
 
-    private final ProcessoRepository repository;
+    Processo salvar(ProcessoDTO dto) throws IOException;
 
-    public Processo salvar(ProcessoDTO dto) throws ProcessoDuplicadoException {
-        if (repository.findByNumero(dto.getNumero()).isPresent()) {
-            throw new ProcessoDuplicadoException("Processo já cadastrado");
-        }
-        Processo processo = new Processo();
-        processo.setNumero(dto.getNumero());
-        return repository.save(processo);
-    }
+    Processo adicionarReu(String numero, ReuDTO reuDTO) throws IOException;
 
-    // Outros métodos como excluir, consultar, adicionar réu, etc.
+    List<Processo> listarTodos() throws IOException;
+
+    Processo consultarPorNumero(String numero) throws IOException;
+
+    void excluir(String numero) throws IOException;
+
+    List<ReuDTO> consultarReus(String numero) throws IOException;
 }

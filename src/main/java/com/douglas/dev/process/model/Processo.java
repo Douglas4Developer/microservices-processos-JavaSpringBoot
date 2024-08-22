@@ -1,10 +1,12 @@
 package com.douglas.dev.process.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,4 +21,8 @@ public class Processo {
 
     @Column(unique = true, nullable = false)
     private String numero;
+
+    @OneToMany(mappedBy = "processo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Reu> reus;
 }
