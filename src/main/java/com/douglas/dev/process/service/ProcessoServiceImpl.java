@@ -23,6 +23,10 @@ public class ProcessoServiceImpl implements ProcessoService {
 
     @Override
     public Processo salvar(ProcessoDTO dto) throws IOException {
+        // Verifica se o número do processo é nulo ou vazio
+        if (dto.getNumero() == null || dto.getNumero().trim().isEmpty()) {
+            throw new ProcessoValidacaoNumero("Erro: O número do processo não pode estar vazio.");
+        }
         // Verifica se o número do processo é válido (maior que zero)
         try {
             long numeroProcesso = Long.parseLong(dto.getNumero());

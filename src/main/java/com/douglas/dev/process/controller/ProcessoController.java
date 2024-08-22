@@ -32,7 +32,7 @@ public class ProcessoController {
             @ApiResponse(responseCode = "500", description = "Numero de Processo informado não válido!")
     })
     @PostMapping("/salvar")
-    public ResponseEntity<Processo> salvar(@Valid @RequestBody ProcessoDTO dto) throws IOException {
+    public ResponseEntity<Processo> salvar(@RequestBody ProcessoDTO dto) throws IOException {
         Processo processo = service.salvar(dto);
         return new ResponseEntity<>(processo, HttpStatus.CREATED); // Retorna com status 201 Created
     }
